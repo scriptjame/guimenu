@@ -1,7 +1,6 @@
-```lua
 --// ⚡ YUNGAKO HUB - UI v2
---// Modern / Responsive / Search / Cards / Sounds / Animations
---// PC + Mobile / Minimize / Reopen / Drag
+--// Beautiful Cards / Search / Sound / Hover / Minimize / Reopen
+--// PC + Mobile
 
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
@@ -21,17 +20,22 @@ if old then
 end
 
 --==================================================
+-- SETTINGS
+--==================================================
+
+local CLICK_SOUND = "rbxassetid://876939830"
+
+--==================================================
 -- GAME DATA
 --==================================================
 
 local Games = {
-
     {
         Name = "Blade Ball",
         Description = "Blade Ball Script",
         Icon = "⚔",
         Action = function()
-            loadstring(game:HttpGet("https://pastefy.app/lXtua1cc/raw"))()
+            -- Blade Ball callback
         end
     },
 
@@ -214,70 +218,49 @@ local Games = {
             -- Bite By Night callback
         end
     },
-
 }
 
 --==================================================
 -- COLORS
 --==================================================
 
-local BG = Color3.fromRGB(12, 14, 20)
-local BG2 = Color3.fromRGB(17, 20, 28)
+local BG = Color3.fromRGB(13, 15, 21)
+local HEADER_BG = Color3.fromRGB(17, 20, 28)
 
 local CARD = Color3.fromRGB(23, 27, 36)
 local CARD_HOVER = Color3.fromRGB(32, 38, 50)
 
-local ICON_BG = Color3.fromRGB(29, 34, 45)
+local ICON_BG = Color3.fromRGB(31, 36, 48)
 
 local TEXT = Color3.fromRGB(245, 247, 252)
 local SUBTEXT = Color3.fromRGB(145, 153, 170)
 
 local ACCENT = Color3.fromRGB(110, 165, 255)
-local ACCENT2 = Color3.fromRGB(175, 115, 255)
+local ACCENT2 = Color3.fromRGB(170, 110, 255)
 
-local SEARCH_BG = Color3.fromRGB(19, 22, 30)
+local SEARCH_BG = Color3.fromRGB(19, 23, 31)
 
 --==================================================
 -- HELPERS
 --==================================================
 
 local function Corner(parent, radius)
-
     local c = Instance.new("UICorner")
     c.CornerRadius = UDim.new(0, radius)
     c.Parent = parent
-
     return c
 end
 
 local function Stroke(parent, color, transparency, thickness)
-
     local s = Instance.new("UIStroke")
     s.Color = color
     s.Transparency = transparency or 0
     s.Thickness = thickness or 1
     s.Parent = parent
-
     return s
 end
 
-local function Gradient(parent, color1, color2, rotation)
-
-    local g = Instance.new("UIGradient")
-
-    g.Color = ColorSequence.new{
-        ColorSequenceKeypoint.new(0, color1),
-        ColorSequenceKeypoint.new(1, color2)
-    }
-
-    g.Rotation = rotation or 0
-    g.Parent = parent
-
-    return g
-end
-
 local function Tween(obj, time, properties)
-
     return TweenService:Create(
         obj,
         TweenInfo.new(
@@ -289,20 +272,11 @@ local function Tween(obj, time, properties)
     )
 end
 
---==================================================
--- SOUNDS
---==================================================
-
-local CLICK_SOUND = "rbxassetid://876939830"
-
-local function PlaySound(parent, volume)
-
+local function ClickSound(parent)
     local sound = Instance.new("Sound")
-
     sound.SoundId = CLICK_SOUND
-    sound.Volume = volume or 0.6
+    sound.Volume = 0.65
     sound.Parent = parent
-
     sound:Play()
 
     Debris:AddItem(sound, 2)
@@ -313,212 +287,117 @@ end
 --==================================================
 
 local Gui = Instance.new("ScreenGui")
-
 Gui.Name = "YungakoHub"
 Gui.ResetOnSpawn = false
 Gui.IgnoreGuiInset = true
 Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
 Gui.Parent = PlayerGui
 
 --==================================================
--- MAIN WINDOW
+-- MAIN
 --==================================================
 
 local Main = Instance.new("Frame")
-
 Main.Name = "Main"
-
 Main.AnchorPoint = Vector2.new(0.5, 0.5)
 Main.Position = UDim2.fromScale(0.5, 0.5)
-
 Main.Size = UDim2.new(0.78, 0, 0.72, 0)
 
 Main.BackgroundColor3 = BG
 Main.BorderSizePixel = 0
-
 Main.ClipsDescendants = true
-
 Main.Parent = Gui
 
 Corner(Main, 18)
 
 local MainStroke = Stroke(
     Main,
-    Color3.fromRGB(95, 125, 180),
-    0.62,
+    Color3.fromRGB(90, 125, 180),
+    0.55,
     1
 )
 
 --==================================================
--- MAIN BACKGROUND GRADIENT
+-- HEADER BACKGROUND
 --==================================================
 
-Gradient(
-    Main,
-    Color3.fromRGB(12, 14, 20),
-    Color3.fromRGB(20, 23, 32),
-    90
-)
+local HeaderBG = Instance.new("Frame")
+HeaderBG.Name = "HeaderBG"
+HeaderBG.Size = UDim2.new(1, 0, 0, 58)
+HeaderBG.BackgroundColor3 = HEADER_BG
+HeaderBG.BorderSizePixel = 0
+HeaderBG.Parent = Main
 
---==================================================
--- TOP ACCENT LINE
---==================================================
-
-local AccentLine = Instance.new("Frame")
-
-AccentLine.Size = UDim2.new(1, 0, 0, 2)
-
-AccentLine.Position = UDim2.new(0, 0, 0, 0)
-
-AccentLine.BorderSizePixel = 0
-
-AccentLine.BackgroundColor3 = ACCENT
-
-AccentLine.Parent = Main
-
-Gradient(
-    AccentLine,
-    ACCENT,
-    ACCENT2,
-    0
-)
+local HeaderGradient = Instance.new("UIGradient")
+HeaderGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(22, 26, 37)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(15, 18, 26))
+})
+HeaderGradient.Parent = HeaderBG
 
 --==================================================
 -- HEADER
 --==================================================
 
 local Header = Instance.new("Frame")
-
 Header.Name = "Header"
-
-Header.Size = UDim2.new(1, 0, 0, 62)
-
+Header.Size = UDim2.new(1, 0, 0, 58)
 Header.BackgroundTransparency = 1
-
 Header.Parent = Main
 
---==================================================
--- TITLE
---==================================================
-
 local Title = Instance.new("TextLabel")
-
 Title.BackgroundTransparency = 1
-
-Title.Position = UDim2.new(0, 18, 0, 7)
-
+Title.Position = UDim2.new(0, 18, 0, 6)
 Title.Size = UDim2.new(1, -100, 0, 27)
-
 Title.Font = Enum.Font.GothamBold
-
 Title.Text = "⚡ YUNGAKO HUB"
-
 Title.TextSize = 19
-
 Title.TextColor3 = TEXT
-
 Title.TextXAlignment = Enum.TextXAlignment.Left
-
 Title.Parent = Header
 
---==================================================
--- TITLE GRADIENT
---==================================================
-
-local TitleGradient = Instance.new("UIGradient")
-
-TitleGradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(220, 235, 255)),
-    ColorSequenceKeypoint.new(0.5, ACCENT),
-    ColorSequenceKeypoint.new(1, ACCENT2)
-}
-
-TitleGradient.Parent = Title
-
---==================================================
--- COUNT
---==================================================
-
 local Count = Instance.new("TextLabel")
-
 Count.BackgroundTransparency = 1
-
-Count.Position = UDim2.new(0, 19, 0, 34)
-
+Count.Position = UDim2.new(0, 19, 0, 32)
 Count.Size = UDim2.new(1, -100, 0, 17)
-
 Count.Font = Enum.Font.Gotham
-
 Count.Text = tostring(#Games) .. " Games  •  Ready"
-
 Count.TextSize = 11
-
 Count.TextColor3 = SUBTEXT
-
 Count.TextXAlignment = Enum.TextXAlignment.Left
-
 Count.Parent = Header
 
 --==================================================
--- CLOSE BUTTON
+-- CLOSE
 --==================================================
 
 local Close = Instance.new("TextButton")
+Close.Size = UDim2.new(0, 32, 0, 32)
+Close.Position = UDim2.new(1, -43, 0, 13)
 
-Close.Size = UDim2.new(0, 34, 0, 34)
-
-Close.Position = UDim2.new(1, -45, 0, 14)
-
-Close.BackgroundColor3 = Color3.fromRGB(30, 34, 44)
+Close.BackgroundColor3 = Color3.fromRGB(34, 39, 50)
+Close.BorderSizePixel = 0
 
 Close.Text = "×"
-
 Close.TextColor3 = TEXT
-
 Close.TextSize = 20
-
 Close.Font = Enum.Font.GothamBold
 
 Close.AutoButtonColor = false
-
 Close.Parent = Header
 
-Corner(Close, 10)
-
-local CloseStroke = Stroke(
-    Close,
-    Color3.fromRGB(80, 90, 110),
-    0.72,
-    1
-)
+Corner(Close, 9)
 
 Close.MouseEnter:Connect(function()
-
-    PlaySound(Close, 0.25)
-
     Tween(Close, .12, {
-        BackgroundColor3 = Color3.fromRGB(55, 60, 73)
+        BackgroundColor3 = Color3.fromRGB(65, 48, 55)
     }):Play()
-
-    Tween(CloseStroke, .12, {
-        Transparency = .35,
-        Color = ACCENT
-    }):Play()
-
 end)
 
 Close.MouseLeave:Connect(function()
-
     Tween(Close, .12, {
-        BackgroundColor3 = Color3.fromRGB(30, 34, 44)
+        BackgroundColor3 = Color3.fromRGB(34, 39, 50)
     }):Play()
-
-    Tween(CloseStroke, .12, {
-        Transparency = .72,
-        Color = Color3.fromRGB(80, 90, 110)
-    }):Play()
-
 end)
 
 --==================================================
@@ -526,127 +405,85 @@ end)
 --==================================================
 
 local SearchFrame = Instance.new("Frame")
-
 SearchFrame.Name = "SearchFrame"
 
-SearchFrame.Position = UDim2.new(0, 14, 0, 70)
-
-SearchFrame.Size = UDim2.new(1, -28, 0, 42)
+SearchFrame.Position = UDim2.new(0, 14, 0, 68)
+SearchFrame.Size = UDim2.new(1, -28, 0, 40)
 
 SearchFrame.BackgroundColor3 = SEARCH_BG
-
 SearchFrame.BorderSizePixel = 0
-
 SearchFrame.Parent = Main
 
 Corner(SearchFrame, 11)
 
 local SearchStroke = Stroke(
     SearchFrame,
-    Color3.fromRGB(75, 83, 100),
-    .72,
+    Color3.fromRGB(70, 80, 100),
+    0.7,
     1
 )
 
--- search gradient
-
-Gradient(
-    SearchFrame,
-    Color3.fromRGB(18, 21, 29),
-    Color3.fromRGB(23, 27, 36),
-    0
-)
-
 local SearchIcon = Instance.new("TextLabel")
-
 SearchIcon.BackgroundTransparency = 1
-
-SearchIcon.Position = UDim2.new(0, 12, 0, 0)
-
+SearchIcon.Position = UDim2.new(0, 11, 0, 0)
 SearchIcon.Size = UDim2.new(0, 25, 1, 0)
 
 SearchIcon.Text = "⌕"
-
 SearchIcon.TextColor3 = SUBTEXT
-
-SearchIcon.Font = Enum.Font.GothamBold
-
 SearchIcon.TextSize = 20
-
+SearchIcon.Font = Enum.Font.GothamBold
 SearchIcon.Parent = SearchFrame
 
 local SearchBox = Instance.new("TextBox")
-
 SearchBox.BackgroundTransparency = 1
-
-SearchBox.Position = UDim2.new(0, 40, 0, 0)
-
+SearchBox.Position = UDim2.new(0, 39, 0, 0)
 SearchBox.Size = UDim2.new(1, -50, 1, 0)
 
 SearchBox.ClearTextOnFocus = false
-
-SearchBox.Font = Enum.Font.Gotham
-
 SearchBox.Text = ""
-
 SearchBox.PlaceholderText = "Search games..."
-
 SearchBox.PlaceholderColor3 = SUBTEXT
 
 SearchBox.TextColor3 = TEXT
-
 SearchBox.TextSize = 13
-
+SearchBox.Font = Enum.Font.Gotham
 SearchBox.TextXAlignment = Enum.TextXAlignment.Left
 
 SearchBox.Parent = SearchFrame
 
 SearchBox.Focused:Connect(function()
-
     Tween(SearchStroke, .15, {
-        Transparency = .25,
+        Transparency = 0.25,
         Color = ACCENT
     }):Play()
-
 end)
 
 SearchBox.FocusLost:Connect(function()
-
     Tween(SearchStroke, .15, {
-        Transparency = .72,
-        Color = Color3.fromRGB(75, 83, 100)
+        Transparency = 0.7,
+        Color = Color3.fromRGB(70, 80, 100)
     }):Play()
-
 end)
 
 --==================================================
--- GAME AREA
+-- GAME SCROLL
 --==================================================
 
 local GameScroll = Instance.new("ScrollingFrame")
-
 GameScroll.Name = "GameScroll"
 
-GameScroll.Position = UDim2.new(0, 14, 0, 122)
-
-GameScroll.Size = UDim2.new(1, -28, 1, -168)
+GameScroll.Position = UDim2.new(0, 14, 0, 117)
+GameScroll.Size = UDim2.new(1, -28, 1, -132)
 
 GameScroll.BackgroundTransparency = 1
-
 GameScroll.BorderSizePixel = 0
 
 GameScroll.ScrollBarThickness = 3
-
 GameScroll.ScrollBarImageColor3 = ACCENT
+GameScroll.ScrollBarImageTransparency = 0.25
 
-GameScroll.ScrollBarImageTransparency = .25
-
-GameScroll.CanvasSize = UDim2.new()
-
-GameScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-
+GameScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
 GameScroll.ScrollingDirection = Enum.ScrollingDirection.Y
-
 GameScroll.Parent = Main
 
 --==================================================
@@ -654,21 +491,24 @@ GameScroll.Parent = Main
 --==================================================
 
 local Grid = Instance.new("UIGridLayout")
+Grid.Name = "Grid"
 
-Grid.CellPadding = UDim2.new(0, 10, 0, 10)
-
-Grid.CellSize = UDim2.new(0.49, -5, 0, 78)
+Grid.CellPadding = UDim2.new(0, 9, 0, 9)
+Grid.CellSize = UDim2.new(0.5, -5, 0, 70)
 
 Grid.SortOrder = Enum.SortOrder.LayoutOrder
 
 Grid.Parent = GameScroll
 
+--==================================================
+-- PADDING
+--==================================================
+
 local Padding = Instance.new("UIPadding")
-
-Padding.PaddingTop = UDim.new(0, 4)
-
+Padding.PaddingTop = UDim.new(0, 3)
 Padding.PaddingBottom = UDim.new(0, 10)
-
+Padding.PaddingLeft = UDim.new(0, 2)
+Padding.PaddingRight = UDim.new(0, 2)
 Padding.Parent = GameScroll
 
 --==================================================
@@ -676,67 +516,33 @@ Padding.Parent = GameScroll
 --==================================================
 
 local NoResults = Instance.new("Frame")
+NoResults.Name = "NoResults"
 
+NoResults.Size = UDim2.new(1, -10, 0, 100)
 NoResults.BackgroundTransparency = 1
-
-NoResults.Size = UDim2.new(1, 0, 0, 100)
-
 NoResults.Visible = false
-
-NoResults.Parent = GameScroll
-
-local NoIcon = Instance.new("TextLabel")
-
-NoIcon.BackgroundTransparency = 1
-
-NoIcon.Size = UDim2.new(1, 0, 0, 30)
-
-NoIcon.Position = UDim2.new(0, 0, 0, 5)
-
-NoIcon.Text = "⌕"
-
-NoIcon.TextColor3 = SUBTEXT
-
-NoIcon.TextSize = 24
-
-NoIcon.Font = Enum.Font.GothamBold
-
-NoIcon.Parent = NoResults
+NoResults.Parent = Main
 
 local NoText = Instance.new("TextLabel")
-
 NoText.BackgroundTransparency = 1
-
-NoText.Size = UDim2.new(1, 0, 0, 24)
-
-NoText.Position = UDim2.new(0, 0, 0, 35)
-
-NoText.Font = Enum.Font.GothamBold
+NoText.Size = UDim2.new(1, 0, 0, 25)
+NoText.Position = UDim2.new(0, 0, 0, 12)
 
 NoText.Text = "No games found"
-
-NoText.TextSize = 15
-
 NoText.TextColor3 = TEXT
-
+NoText.TextSize = 15
+NoText.Font = Enum.Font.GothamBold
 NoText.Parent = NoResults
 
 local NoSub = Instance.new("TextLabel")
-
 NoSub.BackgroundTransparency = 1
-
-NoSub.Size = UDim2.new(1, 0, 0, 20)
-
-NoSub.Position = UDim2.new(0, 0, 0, 58)
-
-NoSub.Font = Enum.Font.Gotham
+NoSub.Size = UDim2.new(1, 0, 0, 22)
+NoSub.Position = UDim2.new(0, 0, 0, 40)
 
 NoSub.Text = "Try another search"
-
-NoSub.TextSize = 11
-
 NoSub.TextColor3 = SUBTEXT
-
+NoSub.TextSize = 11
+NoSub.Font = Enum.Font.Gotham
 NoSub.Parent = NoResults
 
 --==================================================
@@ -749,61 +555,24 @@ local function CreateCard(gameData, index)
 
     local Card = Instance.new("TextButton")
 
-    Card.Name = gameData.Name
-
+    Card.Name = "Card_" .. gameData.Name
     Card.Text = ""
-
     Card.AutoButtonColor = false
 
     Card.BackgroundColor3 = CARD
-
     Card.BorderSizePixel = 0
 
     Card.LayoutOrder = index
-
-    Card.ClipsDescendants = true
-
     Card.Parent = GameScroll
 
-    Corner(Card, 13)
+    Corner(Card, 12)
 
     local CardStroke = Stroke(
         Card,
-        Color3.fromRGB(70, 78, 95),
-        .78,
+        Color3.fromRGB(70, 78, 98),
+        0.78,
         1
     )
-
-    --==================================================
-    -- CARD GRADIENT
-    --==================================================
-
-    local CardGradient = Gradient(
-        Card,
-        Color3.fromRGB(23, 27, 36),
-        Color3.fromRGB(27, 31, 41),
-        0
-    )
-
-    --==================================================
-    -- GLOW
-    --==================================================
-
-    local Glow = Instance.new("Frame")
-
-    Glow.BackgroundColor3 = ACCENT
-
-    Glow.BackgroundTransparency = 1
-
-    Glow.BorderSizePixel = 0
-
-    Glow.Size = UDim2.new(0, 4, 1, -20)
-
-    Glow.Position = UDim2.new(0, 0, 0, 10)
-
-    Glow.Parent = Card
-
-    Corner(Glow, 4)
 
     --==================================================
     -- ICON BOX
@@ -811,46 +580,43 @@ local function CreateCard(gameData, index)
 
     local IconBox = Instance.new("Frame")
 
+    IconBox.Size = UDim2.new(0, 44, 0, 44)
+    IconBox.Position = UDim2.new(0, 10, 0.5, -22)
+
     IconBox.BackgroundColor3 = ICON_BG
-
-    IconBox.Size = UDim2.new(0, 48, 0, 48)
-
-    IconBox.Position = UDim2.new(0, 11, 0.5, -24)
-
     IconBox.BorderSizePixel = 0
 
     IconBox.Parent = Card
 
-    Corner(IconBox, 12)
+    Corner(IconBox, 11)
 
-    local IconStroke = Stroke(
-        IconBox,
-        Color3.fromRGB(75, 85, 105),
-        .72,
-        1
-    )
+    local IconGradient = Instance.new("UIGradient")
 
-    Gradient(
-        IconBox,
-        Color3.fromRGB(30, 35, 46),
-        Color3.fromRGB(37, 43, 56),
-        135
-    )
+    IconGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(
+            0,
+            Color3.fromRGB(38, 44, 58)
+        ),
+
+        ColorSequenceKeypoint.new(
+            1,
+            Color3.fromRGB(28, 32, 43)
+        )
+    })
+
+    IconGradient.Rotation = 90
+    IconGradient.Parent = IconBox
 
     local Icon = Instance.new("TextLabel")
 
     Icon.BackgroundTransparency = 1
-
     Icon.Size = UDim2.fromScale(1, 1)
 
     Icon.Text = gameData.Icon
-
-    Icon.TextSize = 22
-
+    Icon.TextSize = 20
     Icon.Font = Enum.Font.GothamBold
 
     Icon.TextColor3 = TEXT
-
     Icon.Parent = IconBox
 
     --==================================================
@@ -861,20 +627,16 @@ local function CreateCard(gameData, index)
 
     Name.BackgroundTransparency = 1
 
-    Name.Position = UDim2.new(0, 70, 0, 14)
-
-    Name.Size = UDim2.new(1, -112, 0, 22)
+    Name.Position = UDim2.new(0, 64, 0, 12)
+    Name.Size = UDim2.new(1, -102, 0, 20)
 
     Name.Font = Enum.Font.GothamSemibold
 
     Name.Text = gameData.Name
-
     Name.TextSize = 13
-
     Name.TextColor3 = TEXT
 
     Name.TextXAlignment = Enum.TextXAlignment.Left
-
     Name.TextTruncate = Enum.TextTruncate.AtEnd
 
     Name.Parent = Card
@@ -887,61 +649,19 @@ local function CreateCard(gameData, index)
 
     Description.BackgroundTransparency = 1
 
-    Description.Position = UDim2.new(0, 70, 0, 38)
-
-    Description.Size = UDim2.new(1, -112, 0, 18)
+    Description.Position = UDim2.new(0, 64, 0, 35)
+    Description.Size = UDim2.new(1, -106, 0, 17)
 
     Description.Font = Enum.Font.Gotham
 
     Description.Text = gameData.Description
-
     Description.TextSize = 10
-
     Description.TextColor3 = SUBTEXT
 
     Description.TextXAlignment = Enum.TextXAlignment.Left
-
     Description.TextTruncate = Enum.TextTruncate.AtEnd
 
     Description.Parent = Card
-
-    --==================================================
-    -- STATUS DOT
-    --==================================================
-
-    local Status = Instance.new("Frame")
-
-    Status.Size = UDim2.new(0, 6, 0, 6)
-
-    Status.Position = UDim2.new(0, 70, 1, -13)
-
-    Status.BackgroundColor3 = Color3.fromRGB(90, 220, 145)
-
-    Status.BorderSizePixel = 0
-
-    Status.Parent = Card
-
-    Corner(Status, 6)
-
-    local StatusText = Instance.new("TextLabel")
-
-    StatusText.BackgroundTransparency = 1
-
-    StatusText.Position = UDim2.new(0, 80, 1, -18)
-
-    StatusText.Size = UDim2.new(0, 60, 0, 14)
-
-    StatusText.Font = Enum.Font.Gotham
-
-    StatusText.Text = "Ready"
-
-    StatusText.TextSize = 9
-
-    StatusText.TextColor3 = SUBTEXT
-
-    StatusText.TextXAlignment = Enum.TextXAlignment.Left
-
-    StatusText.Parent = Card
 
     --==================================================
     -- ARROW
@@ -952,29 +672,30 @@ local function CreateCard(gameData, index)
     Arrow.BackgroundTransparency = 1
 
     Arrow.AnchorPoint = Vector2.new(1, 0.5)
+    Arrow.Position = UDim2.new(1, -11, 0.5, 0)
 
-    Arrow.Position = UDim2.new(1, -12, 0.5, 0)
-
-    Arrow.Size = UDim2.new(0, 22, 0, 25)
+    Arrow.Size = UDim2.new(0, 20, 0, 25)
 
     Arrow.Text = "›"
 
     Arrow.TextColor3 = SUBTEXT
-
+    Arrow.TextSize = 20
     Arrow.Font = Enum.Font.GothamBold
-
-    Arrow.TextSize = 21
 
     Arrow.Parent = Card
 
     --==================================================
-    -- SAVE CARD
+    -- CARD DATA
     --==================================================
 
-    Cards[#Cards + 1] = {
+    local cardData = {
         Button = Card,
         Data = gameData,
+        Stroke = CardStroke,
+        Arrow = Arrow,
     }
+
+    table.insert(Cards, cardData)
 
     --==================================================
     -- HOVER
@@ -982,74 +703,44 @@ local function CreateCard(gameData, index)
 
     Card.MouseEnter:Connect(function()
 
-        PlaySound(Card, 0.12)
-
-        Tween(Card, .14, {
+        Tween(Card, .13, {
             BackgroundColor3 = CARD_HOVER
         }):Play()
 
-        Tween(CardStroke, .14, {
-            Transparency = .35,
-            Color = ACCENT,
-            Thickness = 1.2
-        }):Play()
-
-        Tween(IconBox, .14, {
-            BackgroundColor3 = Color3.fromRGB(42, 49, 64)
-        }):Play()
-
-        Tween(IconStroke, .14, {
-            Transparency = .25,
+        Tween(CardStroke, .13, {
+            Transparency = 0.25,
             Color = ACCENT
         }):Play()
 
-        Tween(Arrow, .14, {
+        Tween(IconBox, .13, {
+            BackgroundColor3 = Color3.fromRGB(43, 50, 67)
+        }):Play()
+
+        Tween(Arrow, .13, {
             TextColor3 = ACCENT,
-            Position = UDim2.new(1, -8, 0.5, 0)
-        }):Play()
-
-        Tween(Glow, .14, {
-            BackgroundTransparency = .35
-        }):Play()
-
-        Tween(Status, .14, {
-            BackgroundColor3 = ACCENT
+            Position = UDim2.new(1, -7, 0.5, 0)
         }):Play()
 
     end)
 
     Card.MouseLeave:Connect(function()
 
-        Tween(Card, .14, {
+        Tween(Card, .13, {
             BackgroundColor3 = CARD
         }):Play()
 
-        Tween(CardStroke, .14, {
-            Transparency = .78,
-            Color = Color3.fromRGB(70, 78, 95),
-            Thickness = 1
+        Tween(CardStroke, .13, {
+            Transparency = 0.78,
+            Color = Color3.fromRGB(70, 78, 98)
         }):Play()
 
-        Tween(IconBox, .14, {
+        Tween(IconBox, .13, {
             BackgroundColor3 = ICON_BG
         }):Play()
 
-        Tween(IconStroke, .14, {
-            Transparency = .72,
-            Color = Color3.fromRGB(75, 85, 105)
-        }):Play()
-
-        Tween(Arrow, .14, {
+        Tween(Arrow, .13, {
             TextColor3 = SUBTEXT,
-            Position = UDim2.new(1, -12, 0.5, 0)
-        }):Play()
-
-        Tween(Glow, .14, {
-            BackgroundTransparency = 1
-        }):Play()
-
-        Tween(Status, .14, {
-            BackgroundColor3 = Color3.fromRGB(90, 220, 145)
+            Position = UDim2.new(1, -11, 0.5, 0)
         }):Play()
 
     end)
@@ -1060,38 +751,45 @@ local function CreateCard(gameData, index)
 
     Card.Activated:Connect(function()
 
-        PlaySound(Card, 0.65)
+        ClickSound(Card)
 
+        -- press animation
         Tween(Card, .07, {
-            BackgroundColor3 = Color3.fromRGB(42, 48, 63)
+            BackgroundColor3 = Color3.fromRGB(40, 46, 60)
         }):Play()
 
         Tween(IconBox, .07, {
-            Size = UDim2.new(0, 44, 0, 44),
-            Position = UDim2.new(0, 13, 0.5, -22)
+            Size = UDim2.new(0, 40, 0, 40),
+            Position = UDim2.new(0, 12, 0.5, -20)
         }):Play()
 
         task.wait(.07)
 
-        Tween(Card, .10, {
+        Tween(Card, .1, {
             BackgroundColor3 = CARD_HOVER
         }):Play()
 
-        Tween(IconBox, .10, {
-            Size = UDim2.new(0, 48, 0, 48),
-            Position = UDim2.new(0, 11, 0.5, -24)
+        Tween(IconBox, .1, {
+            Size = UDim2.new(0, 44, 0, 44),
+            Position = UDim2.new(0, 10, 0.5, -22)
         }):Play()
 
         -- callback
-
         if typeof(gameData.Action) == "function" then
 
             task.spawn(function()
 
-                local success, err = pcall(gameData.Action)
+                local success, err = pcall(
+                    gameData.Action
+                )
 
                 if not success then
-                    warn("[YungakoHub] " .. tostring(err))
+                    warn(
+                        "[YUNGAKO HUB] " ..
+                        tostring(gameData.Name) ..
+                        " callback error: " ..
+                        tostring(err)
+                    )
                 end
 
             end)
@@ -1099,7 +797,6 @@ local function CreateCard(gameData, index)
         end
 
     end)
-
 end
 
 --==================================================
@@ -1111,6 +808,31 @@ for i, gameData in ipairs(Games) do
 end
 
 --==================================================
+-- UPDATE CANVAS
+--==================================================
+
+local function UpdateCanvas()
+
+    local contentHeight =
+        Grid.AbsoluteContentSize.Y
+
+    GameScroll.CanvasSize =
+        UDim2.new(
+            0,
+            0,
+            0,
+            contentHeight + 18
+        )
+
+end
+
+Grid:GetPropertyChangedSignal(
+    "AbsoluteContentSize"
+):Connect(UpdateCanvas)
+
+task.defer(UpdateCanvas)
+
+--==================================================
 -- SEARCH
 --==================================================
 
@@ -1118,38 +840,87 @@ local function SearchGames(query)
 
     query = string.lower(query or "")
 
-    query = string.gsub(query, "^%s+", "")
-    query = string.gsub(query, "%s+$", "")
+    query = string.gsub(
+        query,
+        "^%s+",
+        ""
+    )
+
+    query = string.gsub(
+        query,
+        "%s+$",
+        ""
+    )
 
     local visibleCount = 0
 
     for _, item in ipairs(Cards) do
 
-        local name = string.lower(item.Data.Name)
-        local description = string.lower(item.Data.Description)
+        local name =
+            string.lower(item.Data.Name)
+
+        local description =
+            string.lower(item.Data.Description)
 
         local found =
             query == ""
-            or string.find(name, query, 1, true)
-            or string.find(description, query, 1, true)
+            or string.find(
+                name,
+                query,
+                1,
+                true
+            )
+            or string.find(
+                description,
+                query,
+                1,
+                true
+            )
 
         item.Button.Visible = found
 
         if found then
             visibleCount += 1
         end
+    end
+
+    NoResults.Visible =
+        visibleCount == 0
+
+    if NoResults.Visible then
+
+        NoResults.Position =
+            UDim2.new(
+                0,
+                14,
+                0,
+                125
+            )
+
+        NoResults.Size =
+            UDim2.new(
+                1,
+                -28,
+                0,
+                100
+            )
 
     end
 
-    NoResults.Visible = visibleCount == 0
+    GameScroll.CanvasPosition =
+        Vector2.new(0, 0)
 
-    GameScroll.CanvasPosition = Vector2.new(0, 0)
+    task.defer(UpdateCanvas)
 
 end
 
-SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+SearchBox:GetPropertyChangedSignal(
+    "Text"
+):Connect(function()
 
-    SearchGames(SearchBox.Text)
+    SearchGames(
+        SearchBox.Text
+    )
 
 end)
 
@@ -1159,40 +930,51 @@ end)
 
 local function UpdateGrid()
 
-    local width = Main.AbsoluteSize.X
+    local width =
+        Main.AbsoluteSize.X
 
     if width < 500 then
 
-        Grid.CellSize = UDim2.new(
-            1,
-            -2,
-            0,
-            78
-        )
+        -- phone portrait
+        Grid.CellSize =
+            UDim2.new(
+                1,
+                -2,
+                0,
+                70
+            )
 
     elseif width < 850 then
 
-        Grid.CellSize = UDim2.new(
-            0.5,
-            -5,
-            0,
-            78
-        )
+        -- mobile landscape / small window
+        Grid.CellSize =
+            UDim2.new(
+                0.5,
+                -5,
+                0,
+                70
+            )
 
     else
 
-        Grid.CellSize = UDim2.new(
-            0.5,
-            -5,
-            0,
-            78
-        )
+        -- desktop
+        Grid.CellSize =
+            UDim2.new(
+                0.333,
+                -7,
+                0,
+                70
+            )
 
     end
 
+    task.defer(UpdateCanvas)
+
 end
 
-Main:GetPropertyChangedSignal("AbsoluteSize"):Connect(UpdateGrid)
+Main:GetPropertyChangedSignal(
+    "AbsoluteSize"
+):Connect(UpdateGrid)
 
 task.defer(UpdateGrid)
 
@@ -1204,66 +986,67 @@ local Reopen = Instance.new("TextButton")
 
 Reopen.Name = "Reopen"
 
-Reopen.AnchorPoint = Vector2.new(0, 0.5)
+Reopen.AnchorPoint =
+    Vector2.new(0, 0.5)
 
-Reopen.Position = UDim2.new(0, 18, 0.7, 0)
+Reopen.Position =
+    UDim2.new(0, 18, 0.7, 0)
 
-Reopen.Size = UDim2.new(0, 48, 0, 48)
+Reopen.Size =
+    UDim2.new(0, 48, 0, 48)
 
-Reopen.BackgroundColor3 = Color3.fromRGB(23, 27, 36)
+Reopen.BackgroundColor3 =
+    Color3.fromRGB(24, 28, 38)
+
+Reopen.BorderSizePixel = 0
 
 Reopen.Text = "⚡"
 
 Reopen.TextColor3 = TEXT
-
-Reopen.TextSize = 21
-
+Reopen.TextSize = 20
 Reopen.Font = Enum.Font.GothamBold
 
 Reopen.Visible = false
-
 Reopen.AutoButtonColor = false
 
 Reopen.Parent = Gui
 
 Corner(Reopen, 24)
 
-local ReopenStroke = Stroke(
-    Reopen,
-    ACCENT,
-    .5,
-    1
-)
+local ReopenStroke =
+    Stroke(
+        Reopen,
+        ACCENT,
+        0.45,
+        1
+    )
 
-Gradient(
-    Reopen,
-    Color3.fromRGB(25, 30, 42),
-    Color3.fromRGB(37, 31, 53),
-    135
-)
+--==================================================
+-- REOPEN HOVER
+--==================================================
 
 Reopen.MouseEnter:Connect(function()
 
-    PlaySound(Reopen, .18)
-
-    Tween(Reopen, .12, {
-        Size = UDim2.new(0, 52, 0, 52)
+    Tween(Reopen, .13, {
+        BackgroundColor3 =
+            Color3.fromRGB(37, 44, 59)
     }):Play()
 
-    Tween(ReopenStroke, .12, {
-        Transparency = .15
+    Tween(ReopenStroke, .13, {
+        Transparency = 0.05
     }):Play()
 
 end)
 
 Reopen.MouseLeave:Connect(function()
 
-    Tween(Reopen, .12, {
-        Size = UDim2.new(0, 48, 0, 48)
+    Tween(Reopen, .13, {
+        BackgroundColor3 =
+            Color3.fromRGB(24, 28, 38)
     }):Play()
 
-    Tween(ReopenStroke, .12, {
-        Transparency = .5
+    Tween(ReopenStroke, .13, {
+        Transparency = 0.45
     }):Play()
 
 end)
@@ -1274,9 +1057,9 @@ end)
 
 Close.Activated:Connect(function()
 
-    PlaySound(Close, .65)
+    ClickSound(Close)
 
-    Tween(Main, .20, {
+    Tween(Main, .18, {
         Size = UDim2.new(
             Main.Size.X.Scale,
             Main.Size.X.Offset,
@@ -1285,10 +1068,9 @@ Close.Activated:Connect(function()
         )
     }):Play()
 
-    task.wait(.20)
+    task.wait(.18)
 
     Main.Visible = false
-
     Reopen.Visible = true
 
 end)
@@ -1299,26 +1081,27 @@ end)
 
 Reopen.Activated:Connect(function()
 
-    PlaySound(Reopen, .65)
+    ClickSound(Reopen)
 
     Reopen.Visible = false
-
     Main.Visible = true
 
-    Main.Size = UDim2.new(
-        Main.Size.X.Scale,
-        Main.Size.X.Offset,
-        0,
-        0
-    )
-
-    Tween(Main, .25, {
-        Size = UDim2.new(
-            0.78,
+    Main.Size =
+        UDim2.new(
+            Main.Size.X.Scale,
+            Main.Size.X.Offset,
             0,
-            0.72,
             0
         )
+
+    Tween(Main, .24, {
+        Size =
+            UDim2.new(
+                0.78,
+                0,
+                0.72,
+                0
+            )
     }):Play()
 
 end)
@@ -1333,14 +1116,18 @@ local StartPosition
 
 Header.InputBegan:Connect(function(input)
 
-    if input.UserInputType == Enum.UserInputType.MouseButton1
-        or input.UserInputType == Enum.UserInputType.Touch then
+    if input.UserInputType ==
+        Enum.UserInputType.MouseButton1
+        or input.UserInputType ==
+        Enum.UserInputType.Touch then
 
         Dragging = true
 
-        DragStart = input.Position
+        DragStart =
+            input.Position
 
-        StartPosition = Main.Position
+        StartPosition =
+            Main.Position
 
     end
 
@@ -1352,31 +1139,35 @@ UIS.InputChanged:Connect(function(input)
         return
     end
 
-    if input.UserInputType ~= Enum.UserInputType.MouseMovement
-        and input.UserInputType ~= Enum.UserInputType.Touch then
+    if input.UserInputType ~=
+        Enum.UserInputType.MouseMovement
+        and input.UserInputType ~=
+        Enum.UserInputType.Touch then
 
         return
 
     end
 
-    local Delta = input.Position - DragStart
+    local Delta =
+        input.Position - DragStart
 
-    Main.Position = UDim2.new(
+    Main.Position =
+        UDim2.new(
+            StartPosition.X.Scale,
+            StartPosition.X.Offset + Delta.X,
 
-        StartPosition.X.Scale,
-        StartPosition.X.Offset + Delta.X,
-
-        StartPosition.Y.Scale,
-        StartPosition.Y.Offset + Delta.Y
-
-    )
+            StartPosition.Y.Scale,
+            StartPosition.Y.Offset + Delta.Y
+        )
 
 end)
 
 UIS.InputEnded:Connect(function(input)
 
-    if input.UserInputType == Enum.UserInputType.MouseButton1
-        or input.UserInputType == Enum.UserInputType.Touch then
+    if input.UserInputType ==
+        Enum.UserInputType.MouseButton1
+        or input.UserInputType ==
+        Enum.UserInputType.Touch then
 
         Dragging = false
 
@@ -1388,19 +1179,30 @@ end)
 -- OPEN ANIMATION
 --==================================================
 
-Main.Size = UDim2.new(
-    0.78,
-    0,
-    0,
-    0
-)
-
-Tween(Main, .30, {
-    Size = UDim2.new(
+Main.Size =
+    UDim2.new(
         0.78,
         0,
-        0.72,
+        0,
         0
     )
+
+Tween(Main, .3, {
+    Size =
+        UDim2.new(
+            0.78,
+            0,
+            0.72,
+            0
+        )
 }):Play()
-```
+
+--==================================================
+-- FINAL
+--==================================================
+
+print(
+    "[YUNGAKO HUB] UI v2 loaded - " ..
+    tostring(#Games) ..
+    " games"
+)
