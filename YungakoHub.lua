@@ -256,6 +256,24 @@ local function Tween(obj, time, properties)
         properties
     )
 end
+--==================================================
+-- CLICK SOUND
+--==================================================
+
+local function PlayClickSound(parent)
+
+    local Sound = Instance.new("Sound")
+    Sound.SoundId = "rbxassetid://876939830"
+    Sound.Volume = 0.7
+    Sound.Parent = parent
+
+    Sound:Play()
+
+    Sound.Ended:Connect(function()
+        Sound:Destroy()
+    end)
+
+end
 
 --==================================================
 -- SCREEN GUI
@@ -562,7 +580,9 @@ local function CreateCard(gameData, index)
     -- click
     Card.Activated:Connect(function()
 
-        Tween(Card, .08, {
+    PlayClickSound(Card)
+
+    Tween(Card, .08, {
             Size = UDim2.new(
                 Card.Size.X.Scale,
                 Card.Size.X.Offset - 2,
