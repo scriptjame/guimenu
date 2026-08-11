@@ -24,13 +24,15 @@ end
 
 local Games = {
     {
-        Name = "Blade Ball",
-        Description = "Blade Ball Script",
-        Icon = "⚔",
-        Action = function()
-            -- Blade Ball callback
-        end
-    },
+    Name = "Blade Ball",
+    Description = "Blade Ball Script",
+    Icon = "⚔",
+    Action = function()
+
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/test2/refs/heads/main/bladeball.lua"))()
+
+    end
+},
 
     {
         Name = "MM2",
