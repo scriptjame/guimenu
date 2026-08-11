@@ -1174,6 +1174,53 @@ UIS.InputEnded:Connect(function(input)
     end
 
 end)
+--==================================================
+-- REOPEN BUTTON DRAG
+--==================================================
+
+local ReopenDragging = false
+local ReopenDragStart
+local ReopenStartPosition
+
+Reopen.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+        or input.UserInputType == Enum.UserInputType.Touch then
+
+        ReopenDragging = true
+        ReopenDragStart = input.Position
+        ReopenStartPosition = Reopen.Position
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+
+    if not ReopenDragging then
+        return
+    end
+
+    if input.UserInputType ~= Enum.UserInputType.MouseMovement
+        and input.UserInputType ~= Enum.UserInputType.Touch then
+        return
+    end
+
+    local Delta = input.Position - ReopenDragStart
+
+    Reopen.Position = UDim2.new(
+        ReopenStartPosition.X.Scale,
+        ReopenStartPosition.X.Offset + Delta.X,
+        ReopenStartPosition.Y.Scale,
+        ReopenStartPosition.Y.Offset + Delta.Y
+    )
+end)
+
+UIS.InputEnded:Connect(function(input)
+
+    if input.UserInputType == Enum.UserInputType.MouseButton1
+        or input.UserInputType == Enum.UserInputType.Touch then
+
+        ReopenDragging = false
+    end
+end)
 
 --==================================================
 -- OPEN ANIMATION
