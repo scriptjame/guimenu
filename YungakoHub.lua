@@ -35,7 +35,7 @@ local Games = {
         Description = "Blade Ball Script",
         Icon = "⚔",
         Action = function()
-            -- Blade Ball callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/test2/refs/heads/main/bladeball.lua"))()
         end
     },
 
@@ -44,7 +44,7 @@ local Games = {
         Description = "Murder Mystery 2",
         Icon = "🔪",
         Action = function()
-            -- MM2 callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/mm2/refs/heads/main/bawe.lua", true))()
         end
     },
 
@@ -53,7 +53,7 @@ local Games = {
         Description = "Adopt Me Script",
         Icon = "🏠",
         Action = function()
-            -- Adopt Me callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/testadp/main/adpt.lua"))()
         end
     },
 
@@ -62,7 +62,7 @@ local Games = {
         Description = "Blox Fruits Script",
         Icon = "🍎",
         Action = function()
-            -- Blox Fruits callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/bloxfruit/refs/heads/main/main.lua"))()
         end
     },
 
@@ -71,7 +71,7 @@ local Games = {
         Description = "Steal a Brainrot Script",
         Icon = "🧠",
         Action = function()
-            -- Steal a Brainrot callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/stealabrainrot/refs/heads/main/shiba.lua"))()
         end
     },
 
@@ -80,7 +80,7 @@ local Games = {
         Description = "99 Nights Script",
         Icon = "🌲",
         Action = function()
-            -- 99 Nights callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/99Nights/refs/heads/main/shiba.lua"))()
         end
     },
 
@@ -89,7 +89,7 @@ local Games = {
         Description = "TSB Script",
         Icon = "⚡",
         Action = function()
-            -- TSB callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/TheStrongestBattlegrounds/refs/heads/main/main.lua"))()
         end
     },
 
@@ -98,7 +98,7 @@ local Games = {
         Description = "Pls Donate Script",
         Icon = "💰",
         Action = function()
-            -- Pls Donate callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/plsdonat_e/refs/heads/main/zzz.lua"))()
         end
     },
 
@@ -107,7 +107,7 @@ local Games = {
         Description = "Evade Script",
         Icon = "👁",
         Action = function()
-            -- Evade callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/evade/refs/heads/main/shabi.lua"))()
         end
     },
 
@@ -116,7 +116,7 @@ local Games = {
         Description = "Fish It Script",
         Icon = "🎣",
         Action = function()
-            -- Fish It callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/fishit/refs/heads/main/nice.lua"))()
         end
     },
 
@@ -125,7 +125,7 @@ local Games = {
         Description = "Doors Script",
         Icon = "🚪",
         Action = function()
-            -- Doors callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/Doors/refs/heads/main/wwsp.lua"))()
         end
     },
 
@@ -134,7 +134,7 @@ local Games = {
         Description = "Sailor Piece Script",
         Icon = "⚓",
         Action = function()
-            -- Sailor Piece callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/SailorPiece/refs/heads/main/heh.lua"))()
         end
     },
 
@@ -143,7 +143,7 @@ local Games = {
         Description = "Jujutsu Script",
         Icon = "👊",
         Action = function()
-            -- Jujutsu callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/Jujutsu-Shenanigans/refs/heads/main/hai.lua"))()
         end
     },
 
@@ -152,7 +152,7 @@ local Games = {
         Description = "Forsaken Script",
         Icon = "☠",
         Action = function()
-            -- Forsaken callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/Forsaken/refs/heads/main/null.lua"))()
         end
     },
 
@@ -161,7 +161,7 @@ local Games = {
         Description = "Rivals Script",
         Icon = "🎯",
         Action = function()
-            -- Rivals callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/rivals/refs/heads/main/loot.lua"))()
         end
     },
 
@@ -170,7 +170,7 @@ local Games = {
         Description = "Arsenal Script",
         Icon = "🔫",
         Action = function()
-            -- Arsenal callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/Arsenal/refs/heads/main/nah.lua"))()
         end
     },
 
@@ -179,7 +179,7 @@ local Games = {
         Description = "Bee Swarm Script",
         Icon = "🐝",
         Action = function()
-            -- Bee Swarm callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/BeeSwarmSimulator/refs/heads/main/loot.lua"))()
         end
     },
 
@@ -188,7 +188,7 @@ local Games = {
         Description = "Brookhaven Script",
         Icon = "🏡",
         Action = function()
-            -- Brookhaven callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/Brookhaven-RP/refs/heads/main/wsp.lua"))()
         end
     },
 
@@ -197,7 +197,7 @@ local Games = {
         Description = "Aura Ascension Script",
         Icon = "✨",
         Action = function()
-            -- Aura Ascension callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/Aura-Ascension/refs/heads/main/looot.lua"))()
         end
     },
 
@@ -206,7 +206,7 @@ local Games = {
         Description = "Dead Rails Script",
         Icon = "🚂",
         Action = function()
-            -- Dead Rails callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/Dead-Rails/refs/heads/main/hola.lua"))()
         end
     },
 
@@ -215,7 +215,7 @@ local Games = {
         Description = "Bite By Night Script",
         Icon = "🌙",
         Action = function()
-            -- Bite By Night callback
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/scriptjame/BiteBynight/refs/heads/main/ty.lua"))()
         end
     },
 }
